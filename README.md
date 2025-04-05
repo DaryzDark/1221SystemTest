@@ -20,26 +20,7 @@
 > Убедись, что у тебя установлен [Docker](https://www.docker.com/) и [Docker Compose](https://docs.docker.com/compose/).
 
 ---
-
-### 🔧 Шаг 1. Собери jar-файл приложения
-
-```bash
-./gradlew clean build
-```
-
-> Убедись, что в `build/libs/` появился файл `.jar`.
-
----
-
-### 🐳 Шаг 2. Построй Docker-образ приложения
-
-```bash
-docker build -t calorie-tracker-app:latest .
-```
-
----
-
-### 🧩 Шаг 3. Запусти контейнеры с `docker-compose`
+## Запусти контейнеры с `docker-compose`
 
 ```bash
 docker-compose up -d
