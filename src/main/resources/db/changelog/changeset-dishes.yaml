@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: admin
+      changes:
+        - createTable:
+            tableName: dishes
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: calories
+                  type: DECIMAL(6,2)
+              - column:
+                  name: protein
+                  type: DECIMAL(5,2)
+              - column:
+                  name: fat
+                  type: DECIMAL(5,2)
+              - column:
+                  name: carbs
+                  type: DECIMAL(5,2)

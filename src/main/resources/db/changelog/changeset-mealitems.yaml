@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: admin
+      changes:
+        - createTable:
+            tableName: meal_items
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: meal_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dish_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: servings
+                  type: INT
+        - addForeignKeyConstraint:
+            baseTableName: meal_items
+            baseColumnNames: meal_id
+            constraintName: fk_mealitems_meals
+            referencedTableName: meals
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: meal_items
+            baseColumnNames: dish_id
+            constraintName: fk_mealitems_dishes
+            referencedTableName: dishes
+            referencedColumnNames: id

@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "67d7103b-7b77-4b6c-95fc-3d6b5b5352c2",
+		"name": "Calorie Tracker API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31579159"
+	},
+	"item": [
+		{
+			"name": "1. Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"User has id\", function () {",
+							"    const json = pm.response.json();",
+							"    pm.expect(json).to.have.property(\"id\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Alex\",\n  \"email\": \"alex@mail.com\",\n  \"age\": 30,\n  \"weight\": 80.0,\n  \"height\": 180,\n  \"goal\": \"MAINTAIN_WEIGHT\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Create Dish",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));",
+							"pm.test(\"Dish created\", () => {",
+							"    const json = pm.response.json();",
+							"    pm.expect(json).to.have.property(\"id\");",
+							"    pm.expect(json.calories).to.be.above(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Grilled Chicken\",\n  \"calories\": 200,\n  \"protein\": 30,\n  \"fat\": 5,\n  \"carbs\": 2\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/dishes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"dishes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Create Meal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Meal created\", () => {",
+							"    pm.response.to.have.status(200);",
+							"    const json = pm.response.json();",
+							"    pm.expect(json.items.length).to.be.above(0);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": 1,\n  \"date\": \"2025-04-05\",\n  \"items\": [\n    { \"dishId\": 1, \"servings\": 2 }\n  ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/meals",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"meals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Get Daily Report",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Daily report contains totalCalories\", () => {",
+							"    const json = pm.response.json();",
+							"    pm.expect(json).to.have.property(\"totalCalories\");",
+							"    pm.expect(json.totalCalories).to.be.a(\"number\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/reports/daily?userId=1&date=2025-04-05",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"reports",
+						"daily"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1"
+						},
+						{
+							"key": "date",
+							"value": "2025-04-05"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. Check Calorie Limit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Limit check is boolean\", () => {",
+							"    const body = pm.response.text();",
+							"    pm.expect(body === \"true\" || body === \"false\").to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/reports/check?userId=1&date=2025-04-05",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"reports",
+						"check"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1"
+						},
+						{
+							"key": "date",
+							"value": "2025-04-05"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Get Calorie History",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Calorie history is object\", () => {",
+							"    const json = pm.response.json();",
+							"    pm.expect(json).to.be.an(\"object\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/reports/history?userId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"reports",
+						"history"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

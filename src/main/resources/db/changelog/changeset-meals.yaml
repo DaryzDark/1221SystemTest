@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: admin
+      changes:
+        - createTable:
+            tableName: meals
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: DATE
+        - addForeignKeyConstraint:
+            baseTableName: meals
+            baseColumnNames: user_id
+            constraintName: fk_meals_users
+            referencedTableName: users
+            referencedColumnNames: id

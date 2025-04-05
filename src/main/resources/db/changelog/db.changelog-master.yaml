@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset-users.yaml
+  - include:
+      file: db/changelog/changeset-dishes.yaml
+  - include:
+      file: db/changelog/changeset-meals.yaml
+  - include:
+     file: db/changelog/changeset-mealitems.yaml
